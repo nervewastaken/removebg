@@ -6,10 +6,6 @@ import os
 
 app = Flask(__name__)
 
-# Directory to save images without background
-OUTPUT_DIR = "output_images"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -25,19 +21,12 @@ def remove_background():
     # Remove background
     img_no_bg = remove(img)
 
-    # Ensure the output path has a .png extension
-    output_path = os.path.join(OUTPUT_DIR, os.path.splitext(image_file.filename)[0] + '.png')
-    img_no_bg.save(output_path)
+    # Save the image to a BytesIO object
+    img_byte_arr = io.BytesIO()
+    img_no_bg.save(img_byte_arr, format='PNG')
+    img_byte_arr.seek(0)
 
-    return jsonify({"message": "Background removed successfully", "filename": os.path.basename(output_path)})
-
-@app.route('/get_image/<filename>', methods=['GET'])
-def get_image(filename):
-    output_path = os.path.join(OUTPUT_DIR, filename)
-    if not os.path.exists(output_path):
-        return jsonify({"error": "File not found"}), 404
-
-    return send_file(output_path, mimetype='image/png')
+    return send_file(img_byte_arr, mimetype='image/png', as_attachment=False)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
