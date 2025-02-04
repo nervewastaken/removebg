@@ -1,101 +1,38 @@
-### README.md for GitHub users
-
-```
-# Remove Background App
-
-This repository contains an application that removes the background from images using the rembg library and the u2net model.
-
-## Usage
+## Deploying ML Model using Flask
+This is a simple project to elaborate how to deploy a Machine Learning model using Flask API
 
 ### Prerequisites
+You must have Scikit Learn, Pandas (for Machine Leraning Model) and Flask (for API) installed.
 
-- Python 3.11 or higher installed
-- Git LFS (Large File Storage) configured (for managing large model files)
+Flask version: 0.12.2
+conda install flask=0.12.2  (or) pip install Flask==0.12.2
 
-### Installation
+### Project Structure
+This project has four major parts :
+1. model.py - This contains code fot our Machine Learning model to predict employee salaries absed on trainign data in 'hiring.csv' file.
+2. app.py - This contains Flask APIs that receives employee details through GUI or API calls, computes the precited value based on our model and returns it.
+3. template - This folder contains the HTML template (index.html) to allow user to enter employee detail and displays the predicted employee salary.
+4. static - This folder contains the css folder with style.css file which has the styling required for out index.html file.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/remove-background-app.git
-   cd remove-background-app
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-### Running the Application
-
-1. Start the Flask server:
-   ```bash
-   python app.py
-   ```
-
-2. Open your web browser and go to `http://localhost:5000` to access the application.
-
-### Removing Background from Images
-
-- Upload an image through the web interface or use drag-and-drop/paste options.
-- The application will remove the background and display the resulting image without background.
-
-### Notes
-
-- Large model files are managed using Git LFS. Ensure you have Git LFS installed and configured before cloning the repository.
-- Images without background are temporarily stored in memory and are not persisted after the session ends.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Running the project
+1. Ensure that you are in the project home directory. Create the machine learning model by running below command from command prompt -
 ```
-
-### README.md for Docker Users
-
+python model.py
 ```
-# Remove Background App with Docker
+This would create a serialized version of our model into a file model.pkl
 
-This repository contains a Dockerized application that removes the background from images using the rembg library and the u2net model.
-
-## Usage
-
-### Prerequisites
-
-- Docker installed on your machine
-
-### Docker Setup
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/remove-background-app.git
-   cd remove-background-app
-   ```
-
-2. Build the Docker image:
-   ```bash
-   docker build -t removebg-app .
-   ```
-
-3. Run the Docker container:
-   ```bash
-   docker run -p 5000:5000 removebg-app
-   ```
-
-4. Open your web browser and go to `http://localhost:5000` to access the application.
-
-### Removing Background from Images
-
-- Upload an image through the web interface or use drag-and-drop/paste options.
-- The application will remove the background and display the resulting image without background.
-
-### Notes
-
-- The application is Dockerized for easy deployment and management.
-- Large model files are included in the Docker image to avoid downloading them each time the container runs.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+2. Run app.py using below command to start Flask API
 ```
+python app.py
+```
+By default, flask will run on port 5000.
 
-These README files provide clear instructions tailored to different user scenarios: one for those who want to run the application directly from GitHub, and another for Docker users who prefer containerized deployments. Adjust the URLs, usernames, and specifics to match your actual repository and application details.
-# removebg
+3. Navigate to URL http://127.0.0.1:5000/ (or) http://localhost:5000
+
+You should be able to view the homepage.
+
+Enter valid numerical values in all 3 input boxes and hit Predict.
+
+If everything goes well, you should  be able to see the predcited salary vaule on the HTML page!
+check the output here: http://127.0.0.1:5000/predict
+
