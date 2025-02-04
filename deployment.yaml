@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rembg
+spec:
+  replicas: 3  # Start with 3 replicas for load balancing
+  selector:
+    matchLabels:
+      app: rembg
+  template:
+    metadata:
+      labels:
+        app: rembg
+    spec:
+      containers:
+        - name: rembg
+          image: your-dockerhub-username/rembg:latest # Change this to your actual image
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: "250m"  # Request 250 milliCPU (0.25 CPU)
+              memory: "256Mi"
+            limits:
+              cpu: "500m"  # Limit to 0.5 CPU
+              memory: "512Mi"
+          livenessProbe: # Restart the container if it becomes unresponsive
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe: # Traffic only sent to ready pods
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
