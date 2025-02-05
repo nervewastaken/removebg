@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt || true
 EXPOSE 5000
 
 # Run the Python model script first, then the application script
-CMD ["sh", "-c", "python model.py && python app.py"]
+CMD ["sh", "-c", "python app.py"]
