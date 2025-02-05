@@ -1,14 +1,17 @@
 # Use a specific version of Python
 FROM python:3.11-slim
 
-# Set the working directory inside the container
+RUN apt-get update && apt-get install -y build-essential
+
 WORKDIR /app
+
+COPY requirements.txt requirements.txt
+
+RUN pip install –no-cache-dir -r requirements.txt
 
 # Copy the current directory contents into the container
 COPY . .
 
-# Install dependencies if a requirements file exists
-RUN pip install --no-cache-dir -r requirements.txt || true
 
 EXPOSE 5000
 
